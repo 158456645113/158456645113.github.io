@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>视频转换序列图</title>
-    <script src="script.js"></script>
+  <title>视频转换序列图</title>
+  <script src="script.js"></script>
 </head>
 <body>
-    <h1>视频转换序列图</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="videoFile" id="videoFile" accept="video/*" />
-        <button type="submit" onclick="uploadVideo(event)">上传视频</button>
-    </form>
-    <div id="progress"></div>
-    <div id="result"></div>
+  <h1>视频转换序列图</h1>
+  <input type="file" id="videoFile" accept="video/*" />
+  <button onclick="convertVideo()">开始转换</button>
+  <div id="progress"></div>
+  <div id="result"></div>
 </body>
 </html>
