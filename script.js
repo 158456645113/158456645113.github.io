@@ -1,28 +1,27 @@
-function uploadVideo(event) {
-    event.preventDefault();
+function convertVideo() {
+  var fileInput = document.getElementById('videoFile');
+  var file = fileInput.files[0];
 
-    var form = document.getElementById('uploadForm');
-    var formData = new FormData(form);
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/convert', true);
 
-    var request = new XMLHttpRequest();
-    request.open('POST', 'convert.php');
+  var formData = new FormData();
+  formData.append('video', file);
 
-    request.upload.addEventListener('progress', function(event) {
-        var progress = Math.round((event.loaded / event.total) * 100);
-        document.getElementById('progress').innerHTML = '转换进度: ' + progress + '%';
-    });
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) {
+      var percent = Math.round((e.loaded / e.total) * 100);
+      document.getElementById('progress').innerHTML = '转换进度：' + percent + '%';
+    }
+  };
 
-    request.addEventListener('load', function(event) {
-        if (request.status == 200) {
-            var response = JSON.parse(request.responseText);
-            if (response.success) {
-                document.getElementById('progress').innerHTML = '转换完成!';
-                document.getElementById('result').innerHTML = '点击下载：<a href="' + response.zipUrl + '">序列图 ZIP 文件</a>';
-            } else {
-                document.getElementById('progress').innerHTML = '转换失败!';
-            }
-        }
-    });
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      document.getElementById('result').innerHTML = '转换完成：<a href="' + xhr.responseText + '">下载序列图</a>';
+    } else {
+      document.getElementById('result').innerHTML = '转换失败';
+    }
+  };
 
-    request.send(formData);
+  xhr.send(formData);
 }
