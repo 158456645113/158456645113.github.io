@@ -2,42 +2,19 @@
 <html>
 <head>
 	<title>视频转换序列图</title>
-	<meta charset="utf-8">
-	<style>
-		.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin-top: 50px;
-		}
-		#video {
-			width: 640px;
-			height: 360px;
-			margin-bottom: 20px;
-		}
-		#canvas {
-			display: none;
-		}
-		#download-btn {
-			display: none;
-			margin-top: 20px;
-			padding: 10px 20px;
-			background-color: #4CAF50;
-			color: white;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-	</style>
+	<script src="videoConverter.js"></script>
 </head>
 <body>
-	<div class="container">
-		<video id="video" controls></video>
-		<button id="convert-btn">转换为序列图</button>
-		<canvas id="canvas"></canvas>
-		<a id="download-btn" download="sequence.png">下载序列图</a>
-	</div>
-
-	<script src="script.js"></script>
+	<h1>视频转换序列图</h1>
+	<form>
+		<label for="videoFile">选择要转换的视频文件：</label>
+		<input type="file" id="videoFile" accept="video/*">
+		<br><br>
+		<button type="button" onclick="convertVideo()">转换</button>
+	</form>
+	<br>
+	<div id="progressBar"></div>
+	<br>
+	<a id="downloadLink" download="sequence.zip" style="display: none;">下载序列图打包文件</a>
 </body>
 </html>
