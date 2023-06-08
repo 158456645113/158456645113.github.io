@@ -14,11 +14,8 @@ function uploadVideo(event) {
     
     request.addEventListener('load', function(event) {
         if (request.status == 200) {
-            document.getElementById('result').innerHTML = '转换完成! <a href="' + request.responseText + '">下载序列图</a>';
-        } else {
-            document.getElementById('result').innerHTML = '转换失败!';
-        }
-    });
-    
-    request.send(formData);
-}
+            var response = JSON.parse(request.responseText);
+            if (response.success) {
+                document.getElementById('result').innerHTML = '转换完成! <a href="' + response.zipUrl + '">下载序列图</a>';
+            } else {
+                document.getElementById('
