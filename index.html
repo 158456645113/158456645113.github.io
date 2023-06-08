@@ -2,14 +2,17 @@
 <html>
 <head>
   <title>视频转换序列图</title>
+  <script src="script.js"></script>
   <style>
-    .progress-bar {
+    #progress-bar {
       width: 300px;
       height: 20px;
-      border: 1px solid #000;
-      margin-top: 10px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
     }
-    .progress {
+
+    #progress {
+      width: 0;
       height: 100%;
       background-color: #4CAF50;
     }
@@ -17,13 +20,11 @@
 </head>
 <body>
   <h1>视频转换序列图</h1>
-  <input type="file" id="videoFile" accept="video/*" />
-  <button onclick="convertToSequence()">开始转换</button>
-  <div class="progress-bar">
-    <div id="progress" class="progress"></div>
+  <input type="file" id="video-file" accept="video/*">
+  <button onclick="convertVideo()">转换视频</button>
+  <div id="progress-bar">
+    <div id="progress"></div>
   </div>
-  <a id="downloadLink" style="display: none;"></a>
-
-  <script src="script.js"></script>
+  <a id="download-link" style="display: none;" download>下载序列图</a>
 </body>
 </html>
