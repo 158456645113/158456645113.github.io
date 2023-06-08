@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>视频转换序列图</title>
-	<script src="videoConverter.js"></script>
+  <title>视频转换序列图</title>
+  <style>
+    .progress-bar {
+      width: 300px;
+      height: 20px;
+      border: 1px solid #000;
+      margin-top: 10px;
+    }
+    .progress {
+      height: 100%;
+      background-color: #4CAF50;
+    }
+  </style>
 </head>
 <body>
-	<h1>视频转换序列图</h1>
-	<form>
-		<label for="videoFile">选择要转换的视频文件：</label>
-		<input type="file" id="videoFile" accept="video/*">
-		<br><br>
-		<button type="button" onclick="convertVideo()">转换</button>
-	</form>
-	<br>
-	<div id="progressBar"></div>
-	<br>
-	<a id="downloadLink" download="sequence.zip" style="display: none;">下载序列图打包文件</a>
+  <h1>视频转换序列图</h1>
+  <input type="file" id="videoFile" accept="video/*" />
+  <button onclick="convertToSequence()">开始转换</button>
+  <div class="progress-bar">
+    <div id="progress" class="progress"></div>
+  </div>
+  <a id="downloadLink" style="display: none;"></a>
+
+  <script src="script.js"></script>
 </body>
 </html>
