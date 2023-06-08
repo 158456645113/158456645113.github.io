@@ -10,18 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 获取视频的关键帧图片
     $ffmpegCommand = "ffmpeg -i " . $videoFile['tmp_name'] . " -vf 'select=eq(pict_type\,I)' -vsync vfr " . $tempDir . "/%03d.jpg";
-    exec($ffmpegCommand);
+    exec($ffmpegCommand, $output, $returnCode);
 
-    // 将生成的图片序列打包为 ZIP 文件
-    $zipFile = 'sequence.zip';
-    $zipCommand = "zip -j -r " . $zipFile . " " . $tempDir;
-    exec($zipCommand);
+    if ($returnCode === 0) {
+        // 将生成的图片序列打包为 ZIP 文件
+        $zipFile = 'sequence.zip';
+        $zipCommand = "zip -j -r " . $zipFile . " " . $tempDir;
+        exec($zipCommand);
 
-    // 删除临时目录及其内容
-    $deleteCommand = "rm -rf " . $tempDir;
-    exec($deleteCommand);
+        // 删除临时目录及其内容
+        $deleteCommand = "rm -rf " . $tempDir;
+        exec($deleteCommand);
 
-    // 返回 ZIP 文件的相对路径
-    echo json_encode(['success' => true, 'zipUrl' => $zipFile]);
+        // 返回 ZIP 文件的相对路径
+        echo json_encode(['success' => true, 'zipUrl' => $zipFile]);
+    } else {
+        // 转换失败
+        echo json_encode(['success' => false]);
+    }
 }
 ?>
