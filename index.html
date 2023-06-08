@@ -2,30 +2,26 @@
 <html>
 <head>
   <title>视频转换序列图</title>
+  <script src="script.js"></script>
   <style>
-    .progress {
+    .progress-bar {
       width: 300px;
       height: 20px;
-      background-color: #f0f0f0;
-      margin-bottom: 10px;
+      border: 1px solid #000;
     }
-
-    .progress-bar {
-      width: 0%;
+    .progress {
       height: 100%;
-      background-color: #4287f5;
+      background-color: #4CAF50;
     }
   </style>
 </head>
 <body>
   <h1>视频转换序列图</h1>
-  <input type="file" id="videoFile" accept="video/*" />
-  <button onclick="convertVideo()">开始转换</button>
-  <div class="progress">
-    <div class="progress-bar"></div>
+  <input type="file" id="videoFile" accept="video/*">
+  <button onclick="convertVideo()">转换视频</button>
+  <div id="progressBar" class="progress-bar">
+    <div id="progress" class="progress"></div>
   </div>
-  <a id="downloadLink" href="#" style="display: none;">下载序列图</a>
-
-  <script src="script.js"></script>
+  <a id="downloadLink" style="display: none;"></a>
 </body>
 </html>
