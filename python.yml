@@ -1,14 +1,18 @@
-name: Python application
-on: [push]
+name: Python Script
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
-  build:
+  run-python:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout actions
-      uses: actions/checkout@v1
-    - name: Set up Python 10.0
-      uses: actions/setup-python@v1
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.7
-    - name: Run script
-      run: python python.py
+        python-version: '3.7'
+    - name: Run Python script
+      run: python script.py
