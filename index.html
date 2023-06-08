@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>视频转换序列图</title>
-  <script src="script.js"></script>
-  <style>
-    .progress-bar {
-      width: 300px;
-      height: 20px;
-      border: 1px solid #000;
-    }
-    .progress {
-      height: 100%;
-      background-color: #4CAF50;
-    }
-  </style>
+    <title>视频转换序列图</title>
+    <script src="script.js"></script>
 </head>
 <body>
-  <h1>视频转换序列图</h1>
-  <input type="file" id="videoFile" accept="video/*">
-  <button onclick="convertVideo()">转换视频</button>
-  <div id="progressBar" class="progress-bar">
-    <div id="progress" class="progress"></div>
-  </div>
-  <a id="downloadLink" style="display: none;"></a>
+    <h1>视频转换序列图</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="videoFile" id="videoFile" accept="video/*" />
+        <button type="submit" onclick="uploadVideo(event)">上传视频</button>
+    </form>
+    <div id="progress"></div>
+    <div id="result"></div>
 </body>
 </html>
