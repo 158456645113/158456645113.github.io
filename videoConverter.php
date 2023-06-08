@@ -1,19 +1,14 @@
 <?php
-// 获取上传的视频文件
-$videoFile = $_FILES["videoFile"]["tmp_name"];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $videoFile = $_FILES['videoFile'];
 
-// 转换视频并生成序列图
-$sequenceDir = "sequence_" . time();
-mkdir($sequenceDir);
-exec("ffmpeg -i $videoFile -vf fps=1 $sequenceDir/image%d.jpg");
+    // 执行视频转换和序列图生成的逻辑
+    // ...
 
-// 打包序列图文件夹为ZIP文件并下载
-$zipFile = $sequenceDir . ".zip";
-exec("zip -r $zipFile $sequenceDir");
-header("Content-Type: application/zip");
-header("Content-Disposition: attachment; filename=\"$zipFile\"");
-readfile($zipFile);
+    // 假设生成了一个序列图文件名为 sequence.jpg
+    $sequenceFile = 'sequence.jpg';
 
-// 删除序列图文件夹和ZIP文件
-exec("rm -rf $sequenceDir $zipFile");
+    // 返回序列图文件的相对路径
+    echo $sequenceFile;
+}
 ?>
