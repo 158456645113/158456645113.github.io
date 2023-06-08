@@ -9,7 +9,7 @@ function uploadVideo(event) {
 
     request.upload.addEventListener('progress', function(event) {
         var progress = Math.round((event.loaded / event.total) * 100);
-        document.getElementById('progress').innerHTML = '上传进度: ' + progress + '%';
+        document.getElementById('progress').innerHTML = '转换进度: ' + progress + '%';
     });
 
     request.addEventListener('load', function(event) {
