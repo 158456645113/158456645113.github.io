@@ -20,4 +20,4 @@ jobs:
     - name: Install dependencies
       run: |
     - name: Run tests
-      run: ../python.py
+      run: /python.py
