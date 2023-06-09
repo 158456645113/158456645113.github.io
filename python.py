@@ -66,4 +66,4 @@ def get_progress():
 
 
 if __name__ == '__main__':
-    app.run(host='https://158456645113.github.io', port=80)
+    app.run(host='0.0.0.0', port=80)
