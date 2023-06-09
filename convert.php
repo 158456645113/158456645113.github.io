@@ -1,4 +1,7 @@
 <?php
+phpinfo();
+?>
+<?php
 if ($_FILES['video-file']['error'] != UPLOAD_ERR_OK) {
 	exit('上传失败，请重试！');
 }
