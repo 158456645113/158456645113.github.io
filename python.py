@@ -1,20 +1,70 @@
-import sys
-import subprocess
+from flask import Flask, request, send_file, jsonify
+import cv2
+import os
+import zipfile
 
-def convert_video(input_file):
-  # 定义输出文件名
-  output_file = "sequence.jpg"
+app = Flask(__name__)
 
-  # 执行视频转换命令
-  command = ["ffmpeg", "-i", input_file, "-vf", "fps=1", output_file]
-  try:
-    subprocess.check_output(command, stderr=subprocess.STDOUT)
-    print(output_file)  # 将生成的序列图文件名打印出来，供PHP文件使用
-  except subprocess.CalledProcessError as e:
-    print("视频转换失败:", e.output)
+progress = 0
 
-# 获取命令行参数（视频文件名）
-input_file = sys.argv[1]
 
-# 执行视频转换操作
-convert_video(input_file)
+@app.route('/')
+def index():
+    return '''
+ <!doctype html>
+ <title>Upload Video</title>
+ <h1>Upload Video</h1>
+ <form method=post enctype=multipart/form-data>
+ <input type=file name=video>
+ <input type=submit value=Upload>
+ </form>
+ <div id="progress"></div>
+ <script>
+ // 定时请求转换进度
+ setInterval(function() {
+ fetch('/progress')
+ .then(response => response.json())
+ .then(data => {
+ document.getElementById('progress').innerHTML = `转换进度：${data.progress}%`;
+ });
+ }, 1000);
+ </script>
+ '''
+
+
+@app.route('/', methods=['POST'])
+def upload_video():
+    video = request.files['video']
+    video.save('uploaded_video.mp4')
+
+    # Convert video to sequence of images
+    vidcap = cv2.VideoCapture('uploaded_video.mp4')
+    success, image = vidcap.read()
+    count = 0
+    total_frames = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
+    global progress
+    while success:
+        cv2.imwrite("img/frame%d.jpg" % count, image)
+        success, image = vidcap.read()
+        count += 1
+        progress = int((count / total_frames) * 100)
+
+    # Create zip file of images
+    with zipfile.ZipFile('img/images.zip', 'w') as myzip:
+        for i in range(count):
+            myzip.write('frame%d.jpg' % i)
+
+    # Delete images
+    for i in range(count):
+        os.remove('img/frame%d.jpg' % i)
+
+        return send_file('images.zip', as_attachment=True)
+
+
+@app.route('/progress')
+def get_progress():
+    return jsonify({'progress': progress})
+
+
+if __name__ == '__main__':
+    app.run()
