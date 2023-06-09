@@ -10,25 +10,26 @@ progress = 0
 
 @app.route('/')
 def index():
-    return '''<!doctype html>
-<title>Upload Video</title>
-<h1>Upload Video</h1>
-<form method=post enctype=multipart/form-data action="http://158456645113.github.io/">
-<input type=file name=video>
-<input type=submit value=Upload>
-</form>
-<div id="progress"></div>
-<script>
-// 定时请求转换进度
-setInterval(function() {
-fetch('/progress')
-.then(response => response.json())
-.then(data => {
-document.getElementById('progress').innerHTML = `转换进度：${data.progress}%`;
-});
-}, 1000);
-</script>
-'''
+    return '''
+ <!doctype html>
+ <title>Upload Video</title>
+ <h1>Upload Video</h1>
+ <form method=post enctype=multipart/form-data>
+ <input type=file name=video>
+ <input type=submit value=Upload>
+ </form>
+ <div id="progress"></div>
+ <script>
+ // 定时请求转换进度
+ setInterval(function() {
+ fetch('/progress')
+ .then(response => response.json())
+ .then(data => {
+ document.getElementById('progress').innerHTML = `转换进度：${data.progress}%`;
+ });
+ }, 1000);
+ </script>
+ '''
 
 
 @app.route('/', methods=['POST'])
@@ -67,3 +68,4 @@ def get_progress():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
+    
