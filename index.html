@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>摄像头画面显示和物体检测</title>
+  <style>
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <video id="videoElement" width="640" height="480" autoplay></video>
+  <canvas id="canvas" width="1920" height="1080"></canvas>
+
+  <script>
+    // 获取视频元素和画布
+    const video = document.getElementById('videoElement');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    // 请求访问摄像头权限，并播放摄像头画面
+    if (navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+          video.srcObject = stream;
+        })
+        .catch(function(error) {
+          console.error('无法访问摄像头：', error);
+        });
+    }
+
+    // 检测视频加载完毕后执行
+    video.addEventListener('loadeddata', function() {
+      // 加载YOLOv3模型和类别名称文件
+      Promise.all([
+        loadModel('yolov3.weights'),
+        loadConfig('yolov3.cfg'),
+        loadClassNames('yolov3.names')
+      ]).then(function([model, config, classNames]) {
+        detectObjects(model, config, classNames);
+      }).catch(function(error) {
+        console.error('加载物体检测模型时出错：', error);
+      });
+    });
+
+    function loadModel(weightsPath) {
+      return new Promise(function(resolve, reject) {
+        // 模型加载逻辑，使用异步方式加载模型
+        // ...
+        // 例如：
+        // model.loadWeights(weightsPath);
+        // resolve(model);
+      });
+    }
+
+    function loadConfig(configPath) {
+      return new Promise(function(resolve, reject) {
+        // 配置文件加载逻辑，使用异步方式加载配置文件
+        // ...
+        // 例如：
+        // model.loadConfig(configPath);
+        // resolve(model);
+      });
+    }
+
+    function loadClassNames(namesPath) {
+      return new Promise(function(resolve, reject) {
+        fetch(namesPath)
+          .then(function(response) {
+            return response.text();
+          })
+          .then(function(data) {
+            const classNames = data.split('\n');
+            resolve(classNames);
+          })
+          .catch(function(error) {
+            reject(error);
+          });
+      });
+    }
+
+    function detectObjects(model, config, classNames) {
+      // 在此处执行物体检测的代码
+      // ...
+      // 例如：
+      const image = new Image();
+      image.src = video.src;
+      image.onload = function() {
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      
+        const detections = model.detect(image); // 使用模型进行物体检测
+      
+        detections.forEach(function(detection) {
+          context.beginPath();
+          context.rect(detection.x, detection.y, detection.width, detection.height);
+          context.lineWidth = 2;
+          context.strokeStyle = 'red';
+          context.fillStyle = 'red';
+          context.stroke();
+          context.fillText(detection.class, detection.x, detection.y - 5);
+        });
+      };
+
+      // 每帧进行物体检测的示例
+      function detectFrame() {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const detections = model.detect(canvas); // 使用模型进行物体检测
+
+        detections.forEach(function(detection) {
+          context.beginPath();
+          context.rect(detection.x, detection.y, detection.width, detection.height);
+          context.lineWidth = 2;
+          context.strokeStyle = 'red';
+          context.fillStyle = 'red';
+          context.stroke();
+          context.fillText(detection.class, detection.x, detection.y - 5);
+        });
+
+        requestAnimationFrame(detectFrame);
+      }
+
+      requestAnimationFrame(detectFrame);
+    }
+  </script>
+</body>
+</html>
