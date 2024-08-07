@@ -1,11 +1,28 @@
-<！doctype html>
-<超文本标记语言朗="zh-CN">
-<头>
-    <元字符集="UTF-8">
-    <元姓名="视口" 内容="宽度=设备宽度，初始比例=1.0">
-    <标题>显示消息</标题>
-</头>
-<身体>
-    <p>1290567295 看到这条消息了吧。 这就是服务器可以访问以显示内容。</p>
-</身体>
-</超文本标记语言>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>适配屏幕的文字显示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        p {
+            font-size: 5vw; /* 设置字体大小为视口宽度的5% */
+            max-font-size: 24px; /* 设置最大字体大小 */
+            min-font-size: 16px; /* 设置最小字体大小 */
+        }
+    </style>
+</head>
+<body>
+    <p>1290567295 看到这条消息了吧。这就是服务器可以访问以显示内容。</p>
+</body>
+</html>
