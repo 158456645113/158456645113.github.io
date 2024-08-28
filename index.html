@@ -1,45 +1,60 @@
 
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活动编辑器</title>
-    <script>
-        function submitActivity() {
-            var activityContent = document.getElementById('activity-content').value;
-            
-            // 创建一个 XMLHttpRequest 对象
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/submit-activity', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+ <meta charset="UTF-8">
 
-            // 当请求完成时执行的函数
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    // 请求成功，显示服务器返回的信息
-                    document.getElementById('response').innerText = '提交成功: ' + xhr.responseText;
-                } else {
-                    // 请求失败，显示错误信息
-                    document.getElementById('response').innerText = '提交失败: ' + xhr.statusText;
-                }
-            };
-
-            // 发送请求
-            xhr.send('content=' + encodeURIComponent(activityContent));
-        }
-    </script>
+ <title>提交内容</title>
+ <style>
+ body,ul{
+ margin:0;/*清除默认标签*/
+ }
+ ul{
+ padding-left:0;
+ list-style:none;
+ }
+ textarea{
+ display:block;
+ width:500px;
+ height:200px;
+ margin:100px auto 0;
+ }
+ .btn{
+ width:500px;
+ margin:10px auto;
+ text-align:right;
+ }
+ .msg{
+ margin:0 auto;
+ width:500px;
+ }
+ .msglist{
+ line-height:50px;
+ border-bottom:1px dashed #ccc;
+ text-indent: 2em;/*开头空两个字符*/
+ }
+ </style>
 </head>
 <body>
-    <h1>活动编辑器</h1>
-    <form id="activity-form" onsubmit="event.preventDefault(); submitActivity();">
-        <label for="activity-content">活动内容:</label>
-        <textarea id="activity-content" rows="4" cols="50" required></textarea>
-        <br>
-        <button type="submit">提交活动</button>
-    </form>
-    <div id="response"></div> <!-- 显示服务器响应 -->
+ <textarea cols="30" rows="10"></textarea>
+ <div class="btn">
+ <button>提交</button>
+ </div>
+ <ul class="msg"></ul>
+ <script>
+ let btn=document.querySelector("button"),//获得button元素
+ textArea=document.querySelector("textarea"),
+ msg=document.querySelector(".msg");
+ btn.onclick=function(){
+ if(textArea.value){
+ // msg.innerHTML+="<li class='msglist'>"+textArea.value+"</li>";//将标签信息添加到ul中
+ msg.innerHTML+="<a href=?music_file="+textArea.value+">确认提交</a><br/>";
+ textArea.value="";//清空输入框
+ }else{
+ alert("你尚未输入信息,请重新输入")
+ }
+ }
+
+ </script>
 </body>
 </html>
- 
