@@ -1,45 +1,45 @@
 
  
-<！--index.html-->
-<！doctype html>
-<超文本标记语言朗="en">
-<头>
-    <元字符集="UTF-8">
-    <元姓名="视口" 内容="宽度=设备宽度，初始比例=1.0">
-    <标题>Auto.js控制器</标题>
-    <脚本>
-    // 当文档加载完毕时绑定事件
-文件。addEventListener('DOMContentLoaded',功能() {
-        // 绑定表单提交事件
-文件。getElementById('命令形式').addEventListener('提交',功能(事件) {
-            // 阻止表单默认提交行为
-事件。preventDefault();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动编辑器</title>
+    <script>
+        function submitActivity() {
+            var activityContent = document.getElementById('activity-content').value;
             
-            // 获取表单数据
-            var 命令=文档。getElementById('命令输入').价值;
-            
-            //发送JAX请求
-            var XHR=新的XMLHttpRequest();
-XHR.打开('POST','/command？CMD='+encodeURIComponent(命令),正确);
-XHR.onreadystatechange=功能() {
-                如果 (XHR.readyState===4&&xhr.状态===200) {
-                    // 请求成功后的操作
-                    var 响应=xhr.responseText;
-文件。getElementById('response').内部文本='响应：'+响应；
+            // 创建一个 XMLHttpRequest 对象
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/submit-activity', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            // 当请求完成时执行的函数
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // 请求成功，显示服务器返回的信息
+                    document.getElementById('response').innerText = '提交成功: ' + xhr.responseText;
+                } else {
+                    // 请求失败，显示错误信息
+                    document.getElementById('response').innerText = '提交失败: ' + xhr.statusText;
                 }
             };
-XHR.发送();
-        });
-    });
-    </脚本>
-</头>
-<身体>
-    <H1>Auto.js控制器</H1>
-    <形式身份标识="命令格式">
-        <输入类型="文本" 身份标识="命令输入" 占位符="输入命令">
-        <按钮类型="提交">发送</按钮>
-    </形式>
-    <div身份标识="响应"></div> <! -- 显示服务器响应 -->
-</身体>
-</超文本标记语言>
+
+            // 发送请求
+            xhr.send('content=' + encodeURIComponent(activityContent));
+        }
+    </script>
+</head>
+<body>
+    <h1>活动编辑器</h1>
+    <form id="activity-form" onsubmit="event.preventDefault(); submitActivity();">
+        <label for="activity-content">活动内容:</label>
+        <textarea id="activity-content" rows="4" cols="50" required></textarea>
+        <br>
+        <button type="submit">提交活动</button>
+    </form>
+    <div id="response"></div> <!-- 显示服务器响应 -->
+</body>
+</html>
  
