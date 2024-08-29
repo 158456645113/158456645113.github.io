@@ -1,60 +1,32 @@
 
+ 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
- <meta charset="UTF-8">
-
- <title>提交内容</title>
- <style>
- body,ul{
- margin:0;/*清除默认标签*/
- }
- ul{
- padding-left:0;
- list-style:none;
- }
- textarea{
- display:block;
- width:500px;
- height:200px;
- margin:100px auto 0;
- }
- .btn{
- width:500px;
- margin:10px auto;
- text-align:right;
- }
- .msg{
- margin:0 auto;
- width:500px;
- }
- .msglist{
- line-height:50px;
- border-bottom:1px dashed #ccc;
- text-indent: 2em;/*开头空两个字符*/
- }
- </style>
+    <meta charset="UTF-8">
+    <title>简单表单提交示例</title>
+    <script>
+        function submitForm() {
+            // 获取表单数据
+            var name = document.getElementById('name').value;
+            
+            // 显示表单数据
+            var result = '提交的表单内容：姓名: ' + name;
+            document.getElementById('result').innerText = result;
+            
+            // 阻止表单默认的提交行为
+            return false;
+        }
+    </script>
 </head>
 <body>
- <textarea cols="30" rows="10"></textarea>
- <div class="btn">
- <button>提交</button>
- </div>
- <ul class="msg"></ul>
- <script>
- let btn=document.querySelector("button"),//获得button元素
- textArea=document.querySelector("textarea"),
- msg=document.querySelector(".msg");
- btn.onclick=function(){
- if(textArea.value){
- // msg.innerHTML+="<li class='msglist'>"+textArea.value+"</li>";//将标签信息添加到ul中
- msg.innerHTML+="<a href=?music_file="+textArea.value+">确认提交</a><br/>";
- textArea.value="";//清空输入框
- }else{
- alert("你尚未输入信息,请重新输入")
- }
- }
-
- </script>
+    <form onsubmit="return submitForm();">
+        <label for="name">姓名:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <input type="submit" value="提交">
+    </form>
+    <div id="result"></div>
 </body>
 </html>
+ 
